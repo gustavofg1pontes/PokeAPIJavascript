@@ -1,22 +1,36 @@
 const URL = 'https://pokeapi.co/api/v2/pokemon/';
 
-
-
 function $(element) {
     return document.querySelector(element);
 }
-
 
 const searchInput = $('.search-input'),
     searchButton = $('.search-button'),
     container = $('.pokemon'),
     erroMessage = $('.error');
+let pokemon,
+    pokeName = $(".name"),
+    pokeImg = $(".sprite");
 
-let pokeName, // Nome ou numero passado na caixa de busca
-    pokemon, // Responsavel por guardar os dados recebidos da API
-    card; // Responsavel por receber o HTML
+searchButton.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+        erroMessage.style.display = "none"
+        pokemon = await searchPokemon(searchInput.value.toLowerCase());
 
-fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+        pokeName.innerHTML = pokemon.name;
+        pokeImg.src = pokemon.sprites.front_default;
+    } catch {
+        pokeName.innerHTML = "";
+        pokeImg.src = "";
+        erroMessage.style.display = "block"
+    }
+})
+
+function searchPokemon(poke) {
+    return fetch(URL + poke)
+        .then(response => response.json())
+        .then(data => { return data })
+        .catch(_ => erroMessage.style.display = "block");
+}
+

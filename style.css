@@ -1,0 +1,19 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+}
+
+.pokemon{
+    text-transform: capitalize;
+}
+
+.error{
+    display: none;
+}
+
+.pokemon{
+    display: flex;
+}
